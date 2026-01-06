@@ -1,0 +1,211 @@
+/* 1. 기본 배경 및 폰트 설정 */
+body {
+    background-color: #1e1e1e; /* VS Code 배경색 */
+    color: #d4d4d4;
+    font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace; /* 고정폭 글꼴 필수 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding-top: 40px;
+}
+
+h1 {
+    color: #569cd6; /* C# 키워드 블루 */
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+/* 2. 상단 컨트롤 바 */
+.controls {
+    background: #252526;
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    border: 1px solid #333;
+}
+
+select, button {
+    padding: 8px 15px;
+    background: #333333;
+    color: white;
+    border: 1px solid #454545;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+button:hover {
+    background: #007acc;
+    border-color: #007acc;
+}
+
+/* 3. 진행 상황 바 */
+.progress-container {
+    width: 800px;
+    height: 4px;
+    background: #333;
+    margin-bottom: 10px;
+    border-radius: 2px;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #4ec9b0; /* 성공을 상징하는 민트색 */
+    transition: width 0.3s ease;
+}
+
+/* 4. 코드 출력 영역 (핵심) */
+#display-area, #input-area {
+    /* 1순위: Consolas, 없으면 기본 고정폭(monospace) 사용 */
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 1.3rem;       /* 글자 크기를 살짝 키우면 더 보기 좋습니다 */
+    font-weight: 400;
+    line-height: 1.5;        /* 줄 간격 */
+    letter-spacing: 0.02em;  /* 글자 사이 간격 */
+}
+
+/* 현재 타이핑 중인 줄 */
+.highlight-line {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    padding: 12px;
+    background: #2a2d2e; /* 현재 행 강조 배경색 */
+    border-radius: 4px;
+    margin-bottom: 15px;
+    /* 들여쓰기를 위해 연속된 공백을 그대로 보존 */
+    white-space: pre; 
+    overflow-x: auto;
+}
+
+/* 글자 상태별 색상 피드백 */
+.char-correct {
+    color: #4ec9b0; /* 올바른 입력: 민트색 */
+}
+
+.char-incorrect {
+    color: #f44747; /* 오타: 빨간색 */
+    background-color: rgba(244, 71, 71, 0.2); /* 오타 배경 살짝 강조 */
+    text-decoration: underline;
+}
+
+.char-normal {
+    color: #d4d4d4; /* 아직 입력하지 않은 상태 */
+}
+
+/* 다음 줄들 미리보기 */
+#line-next-container {
+    color: #6a9955; /* 주석 느낌의 녹색 */
+    opacity: 0.4;
+    padding: 0 12px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    white-space: pre; /* 다음 줄들도 들여쓰기 유지 */
+}
+#display-area {
+    width: 1200px;
+    min-height: 200px;
+    background: #1e1e1e;
+    border: 2px solid #333;
+    border-radius: 6px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+/* 5. 입력창 */
+#input-area {
+    width: 800px;
+    padding: 15px;
+    font-size: 1.3rem;
+    background: #3c3c3c;
+    border: 2px solid #555;
+    border-radius: 4px;
+    color: #ffffff;
+    outline: none;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+#input-area:focus {
+    border-color: #007acc;
+}
+
+#line-current {
+    font-family: 'Consolas', monospace;
+    color: #ffffff;
+    background-color: #252526; /* 코딩 에디터 느낌의 배경색 */
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+/* 6. 실시간 통계 영역 */
+.stats {
+    display: flex;
+    gap: 50px;
+    margin-top: 30px;
+    background: #252526;
+    padding: 20px 60px;
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item label {
+    display: block;
+    font-size: 0.75rem;
+    color: #858585;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-item span {
+    font-size: 1.8rem;
+    color: #b5cea8; /* 숫자 전용 라임색 */
+    font-weight: bold;
+}
+
+/* 7. 푸터 영역 */
+footer {
+    width: 100%;
+    background-color: #181818;
+    color: #707070;
+    padding: 40px 0;
+    margin-top: auto;
+    border-top: 1px solid #2d2d2d;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-section h4 {
+    color: #569cd6;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.footer-section p {
+    font-size: 0.8rem;
+    margin: 4px 0;
+}
+
+.loading-msg {
+    color: #ce9178; /* 오렌지색 문자열 느낌 */
+    margin-bottom: 15px;
+}
+
