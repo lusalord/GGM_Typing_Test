@@ -9,9 +9,25 @@
       "displayName": "1001번 A-B"
     },
     {
+      "fileName": "aslashb.cs",
+      "displayName": "1008번 A/B"
+    },
+    {
       "fileName": "CommendPrompt.cs",
       "displayName": "1032번 명령 프롬프트"
     },
+    {
+      "fileName": "outSpare.cs",
+      "displayName": "1085번 직사각형에서 탈출"
+    },
+    {
+      "fileName": "stick.cs",
+      "displayName": "1094번 막대기"
+    }, 
+    {
+      "fileName": "SortDanUa.cs",
+      "displayName": "1181번 단어 정렬"
+    }, 
     {
       "fileName": "SafariWorld.cs",
       "displayName": "2420번 사파리월드"

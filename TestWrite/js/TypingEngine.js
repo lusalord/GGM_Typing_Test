@@ -61,29 +61,39 @@ class TypingEngine {
             this.inputArea.value = inputValue;
         }
 
-        // 1. 실시간 글자 색상 업데이트
+        // 1. 실시간 글자 색상 업데이트 (UIManager)
         uiManager.renderCurrentLine(targetLine, inputValue);
 
-        // 2. [핵심] 실시간 타수(CPM) 계산 로직
-        const now = new Date();
-        const elapsedMinutes = (now - this.startTime) / 1000 / 60; // 경과 시간(분)
-        
-        // 지금까지 완료한 줄의 총 글자수 + 현재 입력 중인 글자수
-        const currentTotalChars = this.totalTypedChars + inputValue.length;
-        
-        // 타수 계산 (글자수 / 분)
-        let cpm = 0;
-        if (elapsedMinutes > 0) {
-            cpm = Math.floor(currentTotalChars / elapsedMinutes);
+        // 2. [핵심 수정] 틀린 글자는 제외하고 맞은 글자 수만 계산
+        let correctCharsInLine = 0;
+        for (let i = 0; i < inputValue.length; i++) {
+            // 대상 문장의 해당 위치 글자와 입력값이 일치할 때만 카운트
+            if (inputValue[i] === targetLine[i]) {
+                correctCharsInLine++;
+            } else {
+                // 오타가 발생한 시점부터는 해당 줄의 타수 계산을 중단하고 싶다면 break;
+                // 오타 이후에 다시 맞춘 것까지 포함하고 싶다면 break 없이 진행합니다.
+                break; 
+            }
         }
 
-        // 최고 타수 갱신 (비정상적인 수치 방지)
+        // 3. 실시간 타수(CPM) 계산
+        const now = new Date();
+        const elapsedMinutes = (now - this.startTime) / 1000 / 60;
+        
+        // (이전까지 완료한 총 글자수) + (현재 줄에서 맞게 입력한 글자수)
+        const totalCorrectChars = this.totalTypedChars + correctCharsInLine;
+        
+        let cpm = 0;
+        if (elapsedMinutes > 0) {
+            cpm = Math.floor(totalCorrectChars / elapsedMinutes);
+        }
+
         if (cpm > this.maxCpm && cpm < 2000) {
             this.maxCpm = cpm;
         }
 
-        // 3. [실시간 반영] UIManager를 통해 화면의 숫자를 즉시 변경
-        // 이 함수가 UIManager.js에 정확히 구현되어 있어야 숫자가 변합니다.
+        // UI 업데이트
         uiManager.updateStats(cpm, this.maxCpm, this.currentIndex, this.lines.length);
     }
 
